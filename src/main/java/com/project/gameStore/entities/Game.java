@@ -10,6 +10,8 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 @Entity
 @Table(name = "games")
@@ -45,8 +47,19 @@ public class Game implements Serializable {
 
     @Column(name = "physical_stock", nullable = false)
     private Integer physicalStock;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToMany
+    @JoinTable(
+            name = "game_platforms",
+            joinColumns = @JoinColumn(name = "game_id"),
+            inverseJoinColumns = @JoinColumn( name = "platform_id")
+    )
+    private Set<Platform> platforms = new HashSet<>();
+
+
 
 }
