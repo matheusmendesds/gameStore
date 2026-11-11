@@ -1,9 +1,15 @@
 package com.project.gameStore.services;
 
+import com.project.gameStore.dtos.GameRequestDTO;
+import com.project.gameStore.entities.Category;
 import com.project.gameStore.entities.Game;
+import com.project.gameStore.entities.Platform;
+import com.project.gameStore.repositories.CategoryRepository;
 import com.project.gameStore.repositories.GameRepository;
+import com.project.gameStore.repositories.PlatformRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,9 +18,13 @@ import java.util.UUID;
 public class GameService {
 
     private final GameRepository gameRepository;
+    private final CategoryRepository categoryRepository;
+    private final PlatformRepository platformRepository;
 
-    public GameService(GameRepository gameRepository){
+    public GameService(GameRepository gameRepository, CategoryRepository categoryRepository, PlatformRepository platformRepository){
         this.gameRepository = gameRepository;
+        this.categoryRepository = categoryRepository;
+        this.platformRepository = platformRepository;
     }
 
     public List<Game> findAll() {
@@ -25,7 +35,27 @@ public class GameService {
         return gameRepository.findById(id);
     }
 
-    public Game save(Game game) {
+    public Game save(GameRequestDTO data) {
+        Category category = categoryRepository.findById(data.categoryId())
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+        List<Platform> platforms = platformRepository.findAllById(data.platformIds());
+
+        if (platforms.size() != data.platformIds().size()) {
+            throw new RuntimeException("Uma ou mais plataformas não foram encontradas");
+        }
+
+        Game game = new Game();
+
+        game.setName(data.name());
+        game.setDescription(data.description());
+        game.setPrice(data.price());
+        game.setProductType(data.productType());
+        game.setDigitalStock(data.digitalStock());
+        game.setPhysicalStock(data.physicalStock());
+        game.setActive(true);
+        game.setCategory(category);
+        game.setPlatforms(new HashSet<>(platforms));
+
         return gameRepository.save(game);
     }
 
