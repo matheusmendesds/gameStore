@@ -1,0 +1,15 @@
+POST http://localhost:8080/games
+Content-Type: application/json
+
+{
+  "name": "God of War",
+  "description": "Jogo de ação e aventura.",
+  "price": 199.90,
+  "productType": "BOTH",
+  "digitalStock": 10,
+  "physicalStock": 5,
+  "categoryId": "e96bcc9c-2b8b-48ab-a9bf-b5242ec8a1c7",
+  "platformIds": [
+    "2813c8e6-aa7a-427c-819b-c0995ebca62a"
+  ]
+}

@@ -1,5 +1,6 @@
 package com.project.gameStore.controllers;
 
+import com.project.gameStore.dtos.GameRequestDTO;
 import com.project.gameStore.dtos.GameResponseDTO;
 import com.project.gameStore.entities.Game;
 import com.project.gameStore.services.GameService;
@@ -45,7 +46,13 @@ public class GameController {
                 ));
     }
 
-    @PutMapping()
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public GameResponseDTO save(@RequestBody GameRequestDTO data) {
+        Game game = gameService.save(data);
+
+        return toResponseDTO(game);
+    }
 
 
 
