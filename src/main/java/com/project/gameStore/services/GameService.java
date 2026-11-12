@@ -46,11 +46,11 @@ public class GameService {
         }
 
         Category category = categoryRepository.findById(data.categoryId())
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Categoria não encontrada"));
         List<Platform> platforms = platformRepository.findAllById(data.platformIds());
 
         if (platforms.size() != data.platformIds().size()) {
-            throw new RuntimeException("Uma ou mais plataformas não foram encontradas");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Uma ou mais plataformas não foram encontradas");
         }
 
         Game game = new Game();
@@ -70,7 +70,8 @@ public class GameService {
 
     public Game update(GameRequestDTO data , UUID id) {
         Game game = gameRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Jogo não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Jogo não encontrado"));
+
         if (gameRepository.existsByNameAndIdNot(data.name(),id)) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
@@ -78,12 +79,12 @@ public class GameService {
             );
         }
         Category category = categoryRepository.findById(data.categoryId())
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Categoria não encontrado"));
 
         List<Platform> platforms = platformRepository.findAllById(data.platformIds());
 
         if (platforms.size() != data.platformIds().size()) {
-            throw new RuntimeException("Uma ou mais plataformas não foram encontradas");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Uma ou mais plataformas não foram encontradas");
         }
         game.setName(data.name());
         game.setDescription(data.description());
@@ -99,7 +100,7 @@ public class GameService {
 
     public void deleteById(UUID id) {
         Game game = gameRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Jogo não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Jogo não encontrado"));
 
         game.setActive(false);
 
