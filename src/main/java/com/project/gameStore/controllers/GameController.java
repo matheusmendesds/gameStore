@@ -4,6 +4,7 @@ import com.project.gameStore.dtos.GameRequestDTO;
 import com.project.gameStore.dtos.GameResponseDTO;
 import com.project.gameStore.entities.Game;
 import com.project.gameStore.services.GameService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -48,9 +49,8 @@ public class GameController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public GameResponseDTO save(@RequestBody GameRequestDTO data) {
+    public GameResponseDTO save(@Valid @RequestBody GameRequestDTO data) {
         Game game = gameService.save(data);
-
         return toResponseDTO(game);
     }
 
