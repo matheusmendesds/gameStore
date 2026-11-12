@@ -3,6 +3,7 @@ package com.project.gameStore.dtos;
 import com.project.gameStore.enums.ProductType;
 
 import java.math.BigDecimal;
+import java.util.Set;
 import java.util.UUID;
 
 public record GameResponseDTO(
@@ -13,6 +14,8 @@ public record GameResponseDTO(
         ProductType productType,
         Integer digitalStock,
         Integer physicalStock,
-        Boolean active
+        Boolean active,
+        String category,
+        Set<String> platforms
 ) {
 }

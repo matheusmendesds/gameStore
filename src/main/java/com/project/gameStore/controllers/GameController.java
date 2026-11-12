@@ -3,6 +3,7 @@ package com.project.gameStore.controllers;
 import com.project.gameStore.dtos.GameRequestDTO;
 import com.project.gameStore.dtos.GameResponseDTO;
 import com.project.gameStore.entities.Game;
+import com.project.gameStore.entities.Platform;
 import com.project.gameStore.services.GameService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/games")
@@ -32,7 +34,9 @@ public class GameController {
                         game.getProductType(),
                         game.getDigitalStock(),
                         game.getPhysicalStock(),
-                        game.getActive()
+                        game.getActive(),
+                        game.getCategory().getName(),
+                        game.getPlatforms().stream().map(Platform::getName).collect(Collectors.toSet())
                 ))
                 .toList();
     }
@@ -77,7 +81,9 @@ public class GameController {
                 game.getProductType(),
                 game.getDigitalStock(),
                 game.getPhysicalStock(),
-                game.getActive()
+                game.getActive(),
+                game.getCategory().getName(),
+                game.getPlatforms().stream().map(Platform::getName).collect(Collectors.toSet())
 
         );
     }
