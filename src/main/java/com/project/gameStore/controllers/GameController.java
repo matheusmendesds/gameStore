@@ -26,19 +26,7 @@ public class GameController {
     public List<GameResponseDTO> findAll() {
         return gameService.findAll()
                 .stream()
-                .map(game -> new GameResponseDTO(
-                        game.getId(),
-                        game.getName(),
-                        game.getDescription(),
-                        game.getPrice(),
-                        game.getProductType(),
-                        game.getDigitalStock(),
-                        game.getPhysicalStock(),
-                        game.getActive(),
-                        game.getCategory().getName(),
-                        game.getPlatforms().stream().map(Platform::getName).collect(Collectors.toSet())
-                ))
-                .toList();
+                .map(this::toResponseDTO).toList();
     }
 
     @GetMapping("/{id}")
