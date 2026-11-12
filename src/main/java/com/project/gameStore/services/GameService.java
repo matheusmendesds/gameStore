@@ -30,7 +30,7 @@ public class GameService {
     }
 
     public List<Game> findAll() {
-        return gameRepository.findAll();
+        return gameRepository.findAllByActiveTrue();
     }
 
     public Optional<Game> findById(UUID id){
