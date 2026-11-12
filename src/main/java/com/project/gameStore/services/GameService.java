@@ -59,8 +59,37 @@ public class GameService {
         return gameRepository.save(game);
     }
 
-    public void deleteById(UUID id) {
-        gameRepository.deleteById(id);
+    public Game update(GameRequestDTO data , UUID id) {
+        Game game = gameRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Jogo não encontrado"));
+
+        Category category = categoryRepository.findById(data.categoryId())
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrado"));
+
+        List<Platform> platforms = platformRepository.findAllById(data.platformIds());
+
+        if (platforms.size() != data.platformIds().size()) {
+            throw new RuntimeException("Uma ou mais plataformas não foram encontradas");
+        }
+        game.setName(data.name());
+        game.setDescription(data.description());
+        game.setPrice(data.price());
+        game.setProductType(data.productType());
+        game.setDigitalStock(data.digitalStock());
+        game.setPhysicalStock(data.physicalStock());
+        game.setCategory(category);
+        game.setPlatforms(new HashSet<>(platforms));
+
+        return gameRepository.save(game);
     }
 
+    public void deleteById(UUID id) {
+        Game game = gameRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Jogo não encontrado"));
+
+        game.setActive(false);
+
+        gameRepository.save(game);
+
+    }
 }

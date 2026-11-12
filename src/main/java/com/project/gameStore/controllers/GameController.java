@@ -54,6 +54,17 @@ public class GameController {
         return toResponseDTO(game);
     }
 
+    @PutMapping("/{id}")
+    public GameResponseDTO update(@RequestBody GameRequestDTO data,@PathVariable UUID id) {
+        Game game = gameService.update(data,id);
+        return toResponseDTO(game);
+    }
+
+    @DeleteMapping("/id")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable UUID id){
+        gameService.deleteById(id);
+    }
 
 
 
