@@ -7,7 +7,9 @@ import com.project.gameStore.entities.Platform;
 import com.project.gameStore.repositories.CategoryRepository;
 import com.project.gameStore.repositories.GameRepository;
 import com.project.gameStore.repositories.PlatformRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashSet;
 import java.util.List;
@@ -36,6 +38,13 @@ public class GameService {
     }
 
     public Game save(GameRequestDTO data) {
+        if (gameRepository.existsByName(data.name())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Já existe um jogo cadastrado com esse nome"
+            );
+        }
+
         Category category = categoryRepository.findById(data.categoryId())
                 .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
         List<Platform> platforms = platformRepository.findAllById(data.platformIds());
@@ -62,7 +71,12 @@ public class GameService {
     public Game update(GameRequestDTO data , UUID id) {
         Game game = gameRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Jogo não encontrado"));
-
+        if (gameRepository.existsByNameAndIdNot(data.name(),id)) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Já existe outro jogo cadastrado com esse nome"
+            );
+        }
         Category category = categoryRepository.findById(data.categoryId())
                 .orElseThrow(() -> new RuntimeException("Categoria não encontrado"));
 
