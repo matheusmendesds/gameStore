@@ -116,4 +116,8 @@ public class GameService {
         return gameRepository.findAllByActiveTrueAndCategory_NameIgnoreCase(categoryName);
     }
 
+    public List<Game> findByPlatform(String platformName) {
+        return gameRepository.findDistinctByActiveTrueAndPlatforms_NameIgnoreCase(platformName);
+    }
+
 }

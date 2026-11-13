@@ -68,6 +68,11 @@ public class GameController {
         return gameService.findByCategory(categoryName).stream().map(this::toResponseDTO).toList();
     }
 
+    @GetMapping("/platform")
+    public List<GameResponseDTO> searchByPlatform(@RequestParam String platformName) {
+        return gameService.findByPlatform(platformName).stream().map(this::toResponseDTO).toList();
+    }
+
 
 
     private GameResponseDTO toResponseDTO(Game game) {

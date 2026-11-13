@@ -13,6 +13,7 @@ public interface GameRepository extends JpaRepository<Game, UUID> {
     List<Game> findAllByActiveTrue();
     List<Game> findAllByActiveTrueAndNameContainingIgnoreCase(String name);
     List<Game> findAllByActiveTrueAndCategory_NameIgnoreCase(String categoryName);
+    List<Game> findDistinctByActiveTrueAndPlatforms_NameIgnoreCase(String platformName);
 
 
 }
