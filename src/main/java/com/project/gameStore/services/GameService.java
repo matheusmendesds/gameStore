@@ -4,6 +4,7 @@ import com.project.gameStore.dtos.GameRequestDTO;
 import com.project.gameStore.entities.Category;
 import com.project.gameStore.entities.Game;
 import com.project.gameStore.entities.Platform;
+import com.project.gameStore.enums.ProductType;
 import com.project.gameStore.repositories.CategoryRepository;
 import com.project.gameStore.repositories.GameRepository;
 import com.project.gameStore.repositories.PlatformRepository;
@@ -120,4 +121,7 @@ public class GameService {
         return gameRepository.findDistinctByActiveTrueAndPlatforms_NameIgnoreCase(platformName);
     }
 
+    public List<Game> findByProductType(ProductType productType) {
+        return gameRepository.findAllByActiveTrueAndProductType(productType);
+    }
 }

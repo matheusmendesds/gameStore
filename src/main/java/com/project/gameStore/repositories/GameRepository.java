@@ -1,6 +1,7 @@
 package com.project.gameStore.repositories;
 
 import com.project.gameStore.entities.Game;
+import com.project.gameStore.enums.ProductType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public interface GameRepository extends JpaRepository<Game, UUID> {
     List<Game> findAllByActiveTrueAndNameContainingIgnoreCase(String name);
     List<Game> findAllByActiveTrueAndCategory_NameIgnoreCase(String categoryName);
     List<Game> findDistinctByActiveTrueAndPlatforms_NameIgnoreCase(String platformName);
+    List<Game> findAllByActiveTrueAndProductType(ProductType productType);
 
 
 }

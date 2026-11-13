@@ -4,6 +4,7 @@ import com.project.gameStore.dtos.GameRequestDTO;
 import com.project.gameStore.dtos.GameResponseDTO;
 import com.project.gameStore.entities.Game;
 import com.project.gameStore.entities.Platform;
+import com.project.gameStore.enums.ProductType;
 import com.project.gameStore.services.GameService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -71,6 +72,11 @@ public class GameController {
     @GetMapping("/platform")
     public List<GameResponseDTO> searchByPlatform(@RequestParam String platformName) {
         return gameService.findByPlatform(platformName).stream().map(this::toResponseDTO).toList();
+    }
+
+    @GetMapping("/productType")
+    public List<GameResponseDTO> searchByProductType(@RequestParam ProductType productType) {
+        return gameService.findByProductType(productType).stream().map(this::toResponseDTO).toList();
     }
 
 
