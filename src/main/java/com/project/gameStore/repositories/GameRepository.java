@@ -11,4 +11,5 @@ public interface GameRepository extends JpaRepository<Game, UUID> {
 
     boolean existsByNameAndIdNot(String name, UUID id);
     List<Game> findAllByActiveTrue();
+    List<Game> findAllByActiveTrueAndNameContainingIgnoreCase(String name);
 }

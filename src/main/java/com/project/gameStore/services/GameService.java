@@ -107,4 +107,8 @@ public class GameService {
         gameRepository.save(game);
 
     }
+
+    public List<Game> searchByName(String name) {
+        return gameRepository.findAllByActiveTrueAndNameContainingIgnoreCase(name);
+    }
 }
