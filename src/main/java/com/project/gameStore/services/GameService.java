@@ -111,4 +111,9 @@ public class GameService {
     public List<Game> searchByName(String name) {
         return gameRepository.findAllByActiveTrueAndNameContainingIgnoreCase(name);
     }
+
+    public List<Game> findByCategory(String categoryName) {
+        return gameRepository.findAllByActiveTrueAndCategory_NameIgnoreCase(categoryName);
+    }
+
 }
