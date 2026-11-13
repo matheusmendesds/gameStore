@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -77,6 +78,11 @@ public class GameController {
     @GetMapping("/productType")
     public List<GameResponseDTO> searchByProductType(@RequestParam ProductType productType) {
         return gameService.findByProductType(productType).stream().map(this::toResponseDTO).toList();
+    }
+
+    @GetMapping("price-range")
+    public List<GameResponseDTO> searchByPriceRange(@RequestParam BigDecimal minPrice, @RequestParam BigDecimal maxPrice) {
+        return gameService.findByPrice(minPrice,maxPrice).stream().map(this::toResponseDTO).toList();
     }
 
 

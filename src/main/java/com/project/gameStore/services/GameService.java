@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -124,4 +125,15 @@ public class GameService {
     public List<Game> findByProductType(ProductType productType) {
         return gameRepository.findAllByActiveTrueAndProductType(productType);
     }
+
+    public List<Game> findByPrice(BigDecimal priceMin , BigDecimal priceMax) {
+        if (priceMin.compareTo(priceMax) > 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "O preço mínimo não pode ser maior que o preço máximo"
+            );
+        }
+        return gameRepository.findAllByActiveTrueAndPriceBetween(priceMin,priceMax);
+    }
+
 }
