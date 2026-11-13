@@ -58,6 +58,11 @@ public class GameController {
         gameService.deleteById(id);
     }
 
+    @GetMapping("/search")
+    public List<GameResponseDTO> searchByName(@RequestParam String name) {
+        return gameService.searchByName(name).stream().map(this::toResponseDTO).toList();
+    }
+
 
 
     private GameResponseDTO toResponseDTO(Game game) {
